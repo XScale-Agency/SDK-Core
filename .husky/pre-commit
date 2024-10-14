@@ -1,0 +1,5 @@
+. .husky/common.sh
+
+yarn
+
+yarn check
