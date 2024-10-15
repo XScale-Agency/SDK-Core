@@ -1,8 +1,7 @@
 {
-  "name": "@xscale/package-kit",
-  "description": "",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@xscale/sdk-core",
+  "description": "SDK library to streamline the creation of robust REST API clients.",
+  "version": "0.0.1",
   "engines": {
     "node": ">=20.6.0"
   },
@@ -13,16 +12,22 @@
     "build/index.js"
   ],
   "exports": {
-    ".": "./build/index.js",
-    "./types": "./build/src/types.js"
+    ".": {
+      "types": "./index.js",
+      "default": "./build/index.js"
+    },
+    "./schema": {
+      "types": "./src/schema.js",
+      "default": "./build/src/schema.js"
+    }
   },
-  "homepage": "https://github.com/XScale-Agency/Package-Kit#readme",
+  "homepage": "https://github.com/XScale-Agency/SDK-Core#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XScale-Agency/Package-Kit.git"
+    "url": "git+https://github.com/XScale-Agency/SDK-Core.git"
   },
   "bugs": {
-    "url": "https://github.com/XScale-Agency/Package-Kit/issues"
+    "url": "https://github.com/XScale-Agency/SDK-Core/issues"
   },
   "scripts": {
     "clean": "del-cli build",
@@ -33,7 +38,7 @@
     "pretest": "yarn check",
     "test": "c8 yarn quick:test",
     "prebuild": "yarn check && yarn clean",
-    "build": "tsc",
+    "build": "yarn check && tsc",
     "release": "yarn check && changeset version && changeset publish",
     "version": "yarn build",
     "prepublishOnly": "yarn build",
@@ -41,7 +46,8 @@
     "postinstall": "husky",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable",
-    "playground": "node --import=./tsnode.esm.js --enable-source-maps bin/playground.ts"
+    "playground": "node --import=./tsnode.esm.js --enable-source-maps bin/playground.ts",
+    "example": "node --import=./tsnode.esm.js --enable-source-maps example/index.ts"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.7.0",
@@ -53,7 +59,9 @@
     "@japa/assert": "^3.0.0",
     "@japa/runner": "^3.1.4",
     "@swc/core": "^1.6.3",
+    "@types/luxon": "^3",
     "@types/node": "^20.14.5",
+    "@types/qs": "^6",
     "c8": "^10.1.2",
     "copyfiles": "^2.4.1",
     "del-cli": "^5.1.0",
@@ -77,5 +85,11 @@
     "exclude": [
       "tests/**"
     ]
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "luxon": "^3.5.0",
+    "qs": "^6.13.0",
+    "zod": "^3.23.8"
   }
 }

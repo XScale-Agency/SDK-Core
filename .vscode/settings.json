@@ -3,6 +3,7 @@
         "copyfiles",
         "pinst",
         "postpack",
-        "tsnode"
+        "tsnode",
+        "typeof"
     ]
 }
