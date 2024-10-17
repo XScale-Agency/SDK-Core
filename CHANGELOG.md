@@ -1,5 +1,11 @@
 # @xscale/sdk-core
 
+## 0.0.3
+
+### Patch Changes
+
+- 573790f: made base url public in client
+
 ## 0.0.2
 
 ### Patch Changes
