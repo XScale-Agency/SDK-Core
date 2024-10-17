@@ -5,7 +5,6 @@ import { ProductShowEP } from './endpoints/products/show.js'
 
 const baseConfig: ClientConfig = {
   base: new URL('https://dummyjson.com'),
-  beforeParse: (data) => ({ data }),
 }
 
 export class RestClient {

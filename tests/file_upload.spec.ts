@@ -9,8 +9,7 @@ test.group('File Upload', (group) => {
 
   group.setup(async () => {
     client = new Client({
-      base: new URL('https://eoyg5h4uppzm9s3.m.pipedream.net'),
-      beforeParse: (data) => ({ data }),
+      base: new URL('https://httpdump.app/'),
     })
   })
 
@@ -19,12 +18,8 @@ test.group('File Upload', (group) => {
       {
         method: Method.POST,
         form: true,
-        path: new Path(['upload']),
-        output: z
-          .object({
-            event_id: z.string(),
-          })
-          .optional(),
+        path: new Path(['dumps', '5cd25953-2173-43cd-ad63-ee32a347f4c1']),
+        output: z.string().optional(),
 
         input: z.object({
           body: z.object({
@@ -42,7 +37,6 @@ test.group('File Upload', (group) => {
       }
     )
 
-    assert.isObject(res)
-    assert.exists(res?.event_id)
+    assert.isString(res)
   })
 })

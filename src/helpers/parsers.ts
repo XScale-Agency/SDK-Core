@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { SDKCoreError } from '../error.js'
 
 const inputSchema = z
   .object({
@@ -9,49 +10,35 @@ const inputSchema = z
   .optional()
 
 export const inputParser = <Input>(data?: Input, schema?: z.ZodType<Input>) => {
-  if (!data || !schema) {
-    return undefined
+  try {
+    if (!data || !schema) {
+      return undefined
+    }
+
+    const parsedInput = schema.parse(data)
+
+    return inputSchema.parse(parsedInput)
+  } catch (error) {
+    throw new SDKCoreError({
+      type: 'zod',
+      message: 'Unable to parse input data',
+      error,
+      zod: error,
+    })
   }
-
-  const parsedInput = schema.parse(data)
-
-  return inputSchema.parse(parsedInput)
 }
-
-const errorSchema = z.array(
-  z.object({
-    field: z.string().optional(),
-    message: z.string(),
-  })
-)
-
-const outputSchema = z.object({
-  errors: errorSchema.optional(),
-})
 
 export const outputParser = <Output>(data: Output, schema: z.ZodType<Output>) => {
-  const parsedOutput = outputSchema
-    .extend({
-      data: schema,
+  try {
+    const parsedOutput = schema.parse(data)
+
+    return parsedOutput as Output
+  } catch (error) {
+    throw new SDKCoreError({
+      type: 'zod',
+      message: 'Unable to parse output data',
+      error,
+      zod: error,
     })
-    .parse(data)
-
-  return parsedOutput.data as Output
-}
-
-export const errorParser = (data: any) => {
-  const errorArray = errorSchema.parse(data)
-
-  const fields: Record<string, string> = {}
-  const messages: string[] = []
-
-  errorArray.forEach((error) => {
-    if (error.field) {
-      fields[error.field] = error.message
-    } else {
-      messages.push(error.message)
-    }
-  })
-
-  return { fields, messages }
+  }
 }

@@ -10,9 +10,4 @@ export type Token = string | (() => string | undefined) | (() => Promise<string 
 export type ClientConfig = {
   base: URL
   token?: Token
-
-  /**
-   * make changes in data before it goes to output parser
-   */
-  beforeParse?: (input: any) => any
 }

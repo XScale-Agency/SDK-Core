@@ -1,105 +1,92 @@
 import { AxiosError } from 'axios'
 import { ZodError } from 'zod'
-import { errorParser } from './helpers/parsers.js'
 
-export class ClientError extends Error {
-  type: string
+type SDKCoreErrorType = 'zod' | 'axios' | 'error' | 'unknown'
 
-  status?: number
-  headers?: object
+export class SDKCoreError extends Error {
+  type: SDKCoreErrorType
+
+  axios?: AxiosError<any, any>
+  zod?: ZodError
 
   constructor(params: {
     message: string
-    type: string
-    status?: number
-    headers?: object
+    type: SDKCoreErrorType
+    error: Error
     cause?: object
-    stack?: string
+
+    // AXIOS SPECIFIC
+    axios?: AxiosError<any, any>
+
+    // ZOD SPECIFIC
+    zod?: ZodError
   }) {
-    super(params.message, { cause: params.cause })
+    super(params.message, { cause: { ...params.cause, error: params.error } })
 
     this.type = params.type
-
-    this.status = params.status
-    this.headers = params.headers
-    this.stack = params.stack
+    this.axios = params.axios
   }
 
   toJSON() {
     return {
       message: this.message,
       type: this.type,
-      status: this.status,
-      headers: this.headers,
       stack: this.stack,
       cause: this.cause,
-    }
-  }
-}
 
-export class ClientResponseError extends ClientError {
-  constructor(
-    public fields: Record<string, string>,
-    public messages: string[],
-    error: object
-  ) {
-    super({
-      message: 'Axios Response Error',
-      type: 'axios',
-      cause: {
-        error,
-      },
-    })
+      // AXIOS SPECIFIC
+      axios: this.axios,
+
+      // ZOD SPECIFIC
+      zod: this.zod,
+    }
   }
 }
 
 export const ClientErrorHandler = (error: unknown) => {
-  if (error instanceof ClientError) {
+  if (error instanceof SDKCoreError) {
     throw error
   } else if (error instanceof AxiosError) {
     if (error.response) {
-      const { fields, messages } = errorParser(error.response.data.errors)
-
-      throw new ClientResponseError(fields, messages, error.toJSON())
+      throw new SDKCoreError({
+        message: 'Axios Response Error',
+        type: 'axios',
+        error: error,
+        axios: error,
+      })
     } else if (error.request) {
-      throw new ClientError({
+      throw new SDKCoreError({
         message: 'Axios Request Error',
         type: 'axios',
-        cause: {
-          error: error.toJSON(),
-        },
+        error: error,
+        axios: error,
       })
     } else {
-      throw new ClientError({
+      throw new SDKCoreError({
         message: 'Axios Error',
         type: 'axios',
-        cause: {
-          error: error.toJSON(),
-        },
+        error: error,
+        axios: error,
       })
     }
   } else if (error instanceof ZodError) {
-    throw new ClientError({
+    throw new SDKCoreError({
       message: 'Zod error in client error handler',
       type: 'zod',
-      stack: error.stack,
-      cause: {
-        issues: error.issues,
-      },
+      error: error,
+      zod: error,
     })
   } else if (error instanceof Error) {
-    throw new ClientError({
-      message: error.message,
+    throw new SDKCoreError({
+      message: `Unknown error in client error handler: ${error.message}`,
       type: 'error',
-      stack: error.stack,
-      cause: {
-        error,
-      },
+      error,
     })
   } else {
-    throw new ClientError({
+    throw new SDKCoreError({
       message: 'Unknown error in client error handler',
       type: 'unknown',
+      error: new Error('Unknown error in client error handler'),
       cause: {
         error,
       },

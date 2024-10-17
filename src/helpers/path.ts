@@ -21,7 +21,7 @@ export class Path {
                 })
               }
             } else {
-              if (!key.match(/^[a-z0-9]+$/i)) {
+              if (!key.match(/^[a-z0-9-]+$/i)) {
                 ctx.addIssue({
                   code: z.ZodIssueCode.custom,
                   message: 'Only small letters and number allowed in non parameter keys',
