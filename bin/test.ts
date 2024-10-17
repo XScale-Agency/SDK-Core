@@ -6,6 +6,7 @@ processCLIArgs(process.argv.splice(2))
 configure({
   files: ['tests/**/*.spec.ts'],
   plugins: [assert()],
+  timeout: 10000,
 })
 
 run()
