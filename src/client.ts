@@ -8,17 +8,18 @@ import { z } from 'zod'
 
 export class Client {
   #axios: AxiosInstance
-  #base: URL
   #token?: Token
   #beforeParse?: (input: any) => any
 
+  readonly base: URL
+
   constructor(params: ClientConfig) {
-    this.#base = params.base
+    this.base = params.base
     this.#token = params.token
     this.#beforeParse = params.beforeParse
 
     this.#axios = axios.create({
-      baseURL: this.#base.origin,
+      baseURL: this.base.origin,
       headers: {
         'Content-Type': 'application/json',
       },
