@@ -5,6 +5,7 @@ import { Method } from './types/index.js'
 export interface Endpoint {
   method: Method
   path: Path
+  form?: boolean
   param?: z.ZodTypeAny
   body?: z.ZodTypeAny
   query?: z.ZodTypeAny

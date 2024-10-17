@@ -55,7 +55,8 @@ export class Client {
         data: input?.body,
         params: input?.query,
         headers: {
-          Authorization: token ? `Bearer ${token}` : undefined,
+          'Authorization': token ? `Bearer ${token}` : undefined,
+          'Content-Type': endpoint.form ? 'multipart/form-data' : 'application/json',
         },
       }
 

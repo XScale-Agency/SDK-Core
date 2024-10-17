@@ -1,6 +1,6 @@
 ## XScale Agency SDK Core
 
-This library empowers you to build robust and efficient REST API clients with ease. 
+This library empowers you to build robust and efficient REST API clients with ease.
 
 **Key Features:**
 
@@ -60,7 +60,6 @@ Create a separate file for each endpoint to enhance readability and maintainabil
 
 ### Client
 
-
 ```ts
 import { Client } from '@xscale/sdk-core'
 import { ClientConfig } from '@xscale/sdk-core'
@@ -97,7 +96,6 @@ export class RestClient {
 }
 ```
 
-
 The `RestClient` class offers the `api` property that grants access to all available endpoints. Instructions on how to use the `RestClient` class can be found in the `example` folder.
 
 ## Building URLs
@@ -107,21 +105,30 @@ The `Path` class assists in constructing URLs for your endpoints. It facilitates
 - **Building Paths:** Create paths segment by segment (e.g., `new Path(['products', 'add'])`).
 - **Including URL Parameters:** Define URL parameters using placeholders (e.g., `new Path(['products', ':productId'])`). Refer to the `example/endpoints/products/show.ts` file for an illustration on creating parameters objects within endpoints.
 
-
 ## Response Structure
 
 The SDK Core expects a specific response structure from your API:
 
 ```typescript
 type Response = {
-  data: object;
+  data: object
   errors: {
-    field?: string;
-    message: string;
-  }[];
-};
+    field?: string
+    message: string
+  }[]
+}
 ```
 
 However, if your API response deviates from this format, you can leverage the `beforeParse` function to transform the data before parsing. Explore the `example` folder for a practical example of using this library.
+
+## Sending Multipart/Form-Data Requests
+
+The XScale Agency SDK Core empowers you to handle form data uploads within your API requests.
+
+Here's how to send `multipart/form-data` requests:
+
+1. **Configure Endpoint:** Set the `form` property to `true` in your `Endpoint` object. This signals that the request includes form data.
+
+2. **Include File in Request Body:** Pass the file object you intend to upload within the body of your request.
 
 **For detailed code examples and usage scenarios, please refer to the `example` folder within the repository.**

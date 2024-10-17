@@ -1,5 +1,11 @@
 # @xscale/sdk-core
 
+## 0.0.2
+
+### Patch Changes
+
+- Added multipart support
+
 ## 0.0.1
 
 ### Patch Changes
