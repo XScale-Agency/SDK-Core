@@ -68,6 +68,4 @@ export class Client {
       ClientErrorHandler(err)
     }
   }
-
-  new = () => {}
 }
