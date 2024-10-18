@@ -1,5 +1,11 @@
 # @xscale/sdk-core
 
+## 0.0.4
+
+### Patch Changes
+
+- Added data and schema while throwing error in parser
+
 ## 0.0.3
 
 ### Patch Changes

@@ -24,6 +24,10 @@ export const inputParser = <Input>(data?: Input, schema?: z.ZodType<Input>) => {
       message: 'Unable to parse input data',
       error,
       zod: error,
+      cause: {
+        data,
+        schema,
+      },
     })
   }
 }
@@ -39,6 +43,10 @@ export const outputParser = <Output>(data: Output, schema: z.ZodType<Output>) =>
       message: 'Unable to parse output data',
       error,
       zod: error,
+      cause: {
+        data,
+        schema,
+      },
     })
   }
 }
