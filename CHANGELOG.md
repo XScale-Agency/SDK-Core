@@ -1,5 +1,11 @@
 # @xscale/sdk-core
 
+## 0.0.5
+
+### Patch Changes
+
+- Output is not optional anymore
+
 ## 0.0.4
 
 ### Patch Changes

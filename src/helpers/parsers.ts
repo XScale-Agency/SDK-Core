@@ -26,7 +26,6 @@ export const inputParser = <Input>(data?: Input, schema?: z.ZodType<Input>) => {
       zod: error,
       cause: {
         data,
-        schema,
       },
     })
   }
@@ -45,7 +44,6 @@ export const outputParser = <Output>(data: Output, schema: z.ZodType<Output>) =>
       zod: error,
       cause: {
         data,
-        schema,
       },
     })
   }

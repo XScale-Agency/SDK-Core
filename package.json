@@ -1,7 +1,7 @@
 {
   "name": "@xscale/sdk-core",
   "description": "SDK library to streamline the creation of robust REST API clients.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=20.6.0"
   },

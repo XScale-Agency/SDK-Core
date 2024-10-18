@@ -88,7 +88,7 @@ export const ClientErrorHandler = (error: unknown) => {
       type: 'unknown',
       error: new Error('Unknown error in client error handler'),
       cause: {
-        error,
+        originalError: error,
       },
     })
   }

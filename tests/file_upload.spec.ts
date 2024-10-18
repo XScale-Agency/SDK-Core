@@ -19,8 +19,7 @@ test.group('File Upload', (group) => {
         method: Method.POST,
         form: true,
         path: new Path(['dumps', '5cd25953-2173-43cd-ad63-ee32a347f4c1']),
-        output: z.string().optional(),
-
+        output: z.string(),
         input: z.object({
           body: z.object({
             file: z.instanceof(ArrayBuffer),

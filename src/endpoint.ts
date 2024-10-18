@@ -1,4 +1,4 @@
-import { z, ZodOptional } from 'zod'
+import { z } from 'zod'
 import { Path } from './helpers/path.js'
 import { Method } from './types/index.js'
 
@@ -10,5 +10,5 @@ export interface Endpoint {
   body?: z.ZodTypeAny
   query?: z.ZodTypeAny
   input?: z.ZodTypeAny
-  output: ZodOptional<z.ZodTypeAny>
+  output: z.ZodTypeAny
 }

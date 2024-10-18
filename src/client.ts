@@ -56,7 +56,6 @@ export class Client {
         headers: {
           'Authorization': token ? `Bearer ${token}` : undefined,
           'Content-Type': endpoint.form ? 'multipart/form-data' : 'application/json',
-          'User-Agent': 'XScale Agency SDK Core',
         },
       }
 
